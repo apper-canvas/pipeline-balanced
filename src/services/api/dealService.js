@@ -92,7 +92,7 @@ class DealService {
           probability_c: Number(dealData.probability_c || dealData.probability || 10),
           expected_close_date_c: dealData.expected_close_date_c || dealData.expectedCloseDate || null,
           description_c: dealData.description_c || dealData.description || "",
-          contact_id_c: dealData.contact_id_c || dealData.contactId || null,
+contact_id_c: dealData.contact_id_c || dealData.contactId ? parseInt(dealData.contact_id_c || dealData.contactId) : null,
           created_at_c: new Date().toISOString()
         }]
       };
@@ -133,7 +133,7 @@ class DealService {
           probability_c: Number(dealData.probability_c || dealData.probability || 10),
           expected_close_date_c: dealData.expected_close_date_c || dealData.expectedCloseDate || null,
           description_c: dealData.description_c || dealData.description || "",
-          contact_id_c: dealData.contact_id_c || dealData.contactId || null
+contact_id_c: dealData.contact_id_c || dealData.contactId ? parseInt(dealData.contact_id_c || dealData.contactId) : null
         }]
       };
 

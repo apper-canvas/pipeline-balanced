@@ -38,7 +38,7 @@ if (deal) {
         title_c: deal.title_c || deal.title || "",
         value_c: deal.value_c?.toString() || deal.value?.toString() || "",
         stage_c: deal.stage_c || deal.stage || "lead",
-        contact_id_c: deal.contact_id_c || deal.contactId || "",
+contact_id_c: deal.contact_id_c || deal.contactId || null,
         probability_c: deal.probability_c?.toString() || deal.probability?.toString() || "10",
         expected_close_date_c: deal.expected_close_date_c ? deal.expected_close_date_c.split("T")[0] : 
                                deal.expectedCloseDate ? deal.expectedCloseDate.split("T")[0] : "",
@@ -90,7 +90,8 @@ if (!formData.contact_id_c) {
 const dealData = {
         ...formData,
         value_c: Number(formData.value_c),
-        probability_c: Number(formData.probability_c),
+probability_c: Number(formData.probability_c),
+        contact_id_c: formData.contact_id_c ? parseInt(formData.contact_id_c) : null,
       };
 
       await onSave(dealData);
