@@ -11,6 +11,9 @@ const [formData, setFormData] = useState({
     phone_c: "",
     company_c: "",
     position_c: "",
+    city_c: "",
+    pincode_c: "",
+    country_c: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -25,6 +28,9 @@ if (contact) {
         phone_c: contact.phone_c || contact.phone || "",
         company_c: contact.company_c || contact.company || "",
         position_c: contact.position_c || contact.position || "",
+        city_c: contact.city_c || "",
+        pincode_c: contact.pincode_c || "",
+        country_c: contact.country_c || "",
       });
     }
   }, [contact]);
@@ -141,8 +147,41 @@ if (!formData.phone_c.trim()) {
           onChange={handleChange}
           placeholder="Enter job title"
         />
-      </div>
+</div>
 
+      {/* Address Information */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <Input
+            label="City"
+            name="city_c"
+            value={formData.city_c}
+            onChange={handleChange}
+            placeholder="Enter city"
+            className="w-full"
+          />
+        </div>
+        <div>
+          <Input
+            label="Pincode"
+            name="pincode_c"
+            value={formData.pincode_c}
+            onChange={handleChange}
+            placeholder="Enter pincode"
+            className="w-full"
+          />
+        </div>
+        <div>
+          <Input
+            label="Country"
+            name="country_c"
+            value={formData.country_c}
+            onChange={handleChange}
+            placeholder="Enter country"
+            className="w-full"
+          />
+        </div>
+      </div>
       <div className="flex justify-end space-x-3 pt-6">
         <Button
           type="button"

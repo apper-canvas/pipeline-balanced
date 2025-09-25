@@ -19,7 +19,7 @@ class ContactService {
     try {
       const client = this.getApperClient();
       const params = {
-        fields: [
+fields: [
           {"field": {"Name": "Id"}},
           {"field": {"Name": "Name"}},
           {"field": {"Name": "first_name_c"}},
@@ -28,6 +28,9 @@ class ContactService {
           {"field": {"Name": "phone_c"}},
           {"field": {"Name": "company_c"}},
           {"field": {"Name": "position_c"}},
+          {"field": {"Name": "city_c"}},
+          {"field": {"Name": "pincode_c"}},
+          {"field": {"Name": "country_c"}},
           {"field": {"Name": "created_at_c"}},
           {"field": {"Name": "last_activity_c"}},
           {"field": {"Name": "CreatedOn"}}
@@ -52,7 +55,7 @@ class ContactService {
     try {
       const client = this.getApperClient();
       const params = {
-        fields: [
+fields: [
           {"field": {"Name": "Id"}},
           {"field": {"Name": "Name"}},
           {"field": {"Name": "first_name_c"}},
@@ -61,6 +64,9 @@ class ContactService {
           {"field": {"Name": "phone_c"}},
           {"field": {"Name": "company_c"}},
           {"field": {"Name": "position_c"}},
+          {"field": {"Name": "city_c"}},
+          {"field": {"Name": "pincode_c"}},
+          {"field": {"Name": "country_c"}},
           {"field": {"Name": "created_at_c"}},
           {"field": {"Name": "last_activity_c"}},
           {"field": {"Name": "CreatedOn"}}
@@ -84,7 +90,7 @@ async create(contactData) {
     try {
       const client = this.getApperClient();
       const params = {
-        records: [{
+records: [{
           Name: `${contactData.first_name_c || contactData.firstName} ${contactData.last_name_c || contactData.lastName}`,
           first_name_c: contactData.first_name_c || contactData.firstName,
           last_name_c: contactData.last_name_c || contactData.lastName,
@@ -92,6 +98,9 @@ async create(contactData) {
           phone_c: contactData.phone_c || contactData.phone,
           company_c: contactData.company_c || contactData.company || "",
           position_c: contactData.position_c || contactData.position || "",
+          city_c: contactData.city_c || "",
+          pincode_c: contactData.pincode_c || "",
+          country_c: contactData.country_c || "",
           created_at_c: new Date().toISOString(),
           last_activity_c: new Date().toISOString()
         }]
@@ -151,14 +160,17 @@ async create(contactData) {
       const client = this.getApperClient();
       const params = {
         records: [{
-          Id: parseInt(id),
+Id: parseInt(id),
           Name: `${contactData.first_name_c || contactData.firstName} ${contactData.last_name_c || contactData.lastName}`,
           first_name_c: contactData.first_name_c || contactData.firstName,
           last_name_c: contactData.last_name_c || contactData.lastName,
           email_c: contactData.email_c || contactData.email,
           phone_c: contactData.phone_c || contactData.phone,
           company_c: contactData.company_c || contactData.company || "",
-          position_c: contactData.position_c || contactData.position || ""
+          position_c: contactData.position_c || contactData.position || "",
+          city_c: contactData.city_c || "",
+          pincode_c: contactData.pincode_c || "",
+          country_c: contactData.country_c || ""
         }]
       };
 
