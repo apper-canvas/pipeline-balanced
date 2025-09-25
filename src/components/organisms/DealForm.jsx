@@ -15,6 +15,7 @@ const [formData, setFormData] = useState({
     probability_c: "10",
     expected_close_date_c: "",
     description_c: "",
+    notes_c: "",
   });
 
   const [contacts, setContacts] = useState([]);
@@ -42,7 +43,8 @@ contact_id_c: deal.contact_id_c || deal.contactId || null,
         probability_c: deal.probability_c?.toString() || deal.probability?.toString() || "10",
         expected_close_date_c: deal.expected_close_date_c ? deal.expected_close_date_c.split("T")[0] : 
                                deal.expectedCloseDate ? deal.expectedCloseDate.split("T")[0] : "",
-        description_c: deal.description_c || deal.description || "",
+description_c: deal.description_c || deal.description || "",
+        notes_c: deal.notes_c || deal.notes || "",
       });
     }
   }, [deal]);
@@ -189,12 +191,21 @@ probability_c: Number(formData.probability_c),
 onChange={handleChange}
       />
 
-      <Textarea
+<Textarea
         label="Description"
         name="description_c"
         value={formData.description_c}
         onChange={handleChange}
         placeholder="Enter deal description (optional)"
+        rows={3}
+      />
+
+      <Textarea
+        label="Notes"
+        name="notes_c"
+        value={formData.notes_c}
+        onChange={handleChange}
+        placeholder="Enter additional notes about this deal (optional)"
         rows={3}
       />
 
