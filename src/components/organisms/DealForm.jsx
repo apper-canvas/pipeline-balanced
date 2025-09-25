@@ -141,7 +141,6 @@ const dealData = {
           value={formData.stage_c}
           onChange={handleChange}
         >
-        >
           {stages.map(stage => (
             <option key={stage.value} value={stage.value}>
               {stage.label}

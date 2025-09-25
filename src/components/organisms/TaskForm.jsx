@@ -128,8 +128,6 @@ if (!formData.due_date_c) {
         error={errors.title_c}
         placeholder="Enter task title"
       />
-      />
-
 <Textarea
         label="Description"
         name="description_c"
