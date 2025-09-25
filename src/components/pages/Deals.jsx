@@ -61,7 +61,7 @@ const Deals = () => {
       if (!selectedDeal && dealData.Id) {
         dealToUpdate = dealData;
         dealId = dealData.Id;
-      }
+}
 
       const updatedDeal = await dealService.update(dealId, dealData);
       setDeals(prev => prev.map(deal => 
@@ -94,12 +94,12 @@ const Deals = () => {
 
   const filteredDeals = deals.filter(deal => {
     const searchLower = searchTerm.toLowerCase();
-    const contact = contacts.find(c => c.Id === parseInt(deal.contactId));
+const contact = contacts.find(c => c.Id === parseInt(deal.contact_id_c || deal.contactId));
     
     return (
-      deal.title.toLowerCase().includes(searchLower) ||
-      (contact && `${contact.firstName} ${contact.lastName}`.toLowerCase().includes(searchLower)) ||
-      (contact && contact.company.toLowerCase().includes(searchLower))
+(deal.title_c || deal.title || "").toLowerCase().includes(searchLower) ||
+      (contact && `${contact.first_name_c || contact.firstName} ${contact.last_name_c || contact.lastName}`.toLowerCase().includes(searchLower)) ||
+      (contact && (contact.company_c || contact.company || "").toLowerCase().includes(searchLower))
     );
   });
 

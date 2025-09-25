@@ -7,14 +7,14 @@ import { toast } from "react-toastify";
 import contactService from "@/services/api/contactService";
 
 const DealForm = ({ deal, onSave, onCancel }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    value: "",
-    stage: "lead",
-    contactId: "",
-    probability: "10",
-    expectedCloseDate: "",
-    description: "",
+const [formData, setFormData] = useState({
+    title_c: "",
+    value_c: "",
+    stage_c: "lead",
+    contact_id_c: "",
+    probability_c: "10",
+    expected_close_date_c: "",
+    description_c: "",
   });
 
   const [contacts, setContacts] = useState([]);
@@ -33,15 +33,16 @@ const DealForm = ({ deal, onSave, onCancel }) => {
   useEffect(() => {
     loadContacts();
     
-    if (deal) {
+if (deal) {
       setFormData({
-        title: deal.title || "",
-        value: deal.value?.toString() || "",
-        stage: deal.stage || "lead",
-        contactId: deal.contactId || "",
-        probability: deal.probability?.toString() || "10",
-        expectedCloseDate: deal.expectedCloseDate ? deal.expectedCloseDate.split("T")[0] : "",
-        description: deal.description || "",
+        title_c: deal.title_c || deal.title || "",
+        value_c: deal.value_c?.toString() || deal.value?.toString() || "",
+        stage_c: deal.stage_c || deal.stage || "lead",
+        contact_id_c: deal.contact_id_c || deal.contactId || "",
+        probability_c: deal.probability_c?.toString() || deal.probability?.toString() || "10",
+        expected_close_date_c: deal.expected_close_date_c ? deal.expected_close_date_c.split("T")[0] : 
+                               deal.expectedCloseDate ? deal.expectedCloseDate.split("T")[0] : "",
+        description_c: deal.description_c || deal.description || "",
       });
     }
   }, [deal]);
@@ -58,18 +59,18 @@ const DealForm = ({ deal, onSave, onCancel }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.title.trim()) {
-      newErrors.title = "Deal title is required";
+if (!formData.title_c.trim()) {
+      newErrors.title_c = "Deal title is required";
     }
 
-    if (!formData.value.trim()) {
-      newErrors.value = "Deal value is required";
-    } else if (isNaN(Number(formData.value)) || Number(formData.value) <= 0) {
-      newErrors.value = "Deal value must be a positive number";
+if (!formData.value_c.trim()) {
+      newErrors.value_c = "Deal value is required";
+    } else if (isNaN(Number(formData.value_c)) || Number(formData.value_c) <= 0) {
+      newErrors.value_c = "Deal value must be a positive number";
     }
 
-    if (!formData.contactId) {
-      newErrors.contactId = "Contact is required";
+if (!formData.contact_id_c) {
+      newErrors.contact_id_c = "Contact is required";
     }
 
     setErrors(newErrors);
@@ -86,10 +87,10 @@ const DealForm = ({ deal, onSave, onCancel }) => {
     setIsSubmitting(true);
 
     try {
-      const dealData = {
+const dealData = {
         ...formData,
-        value: Number(formData.value),
-        probability: Number(formData.probability),
+        value_c: Number(formData.value_c),
+        probability_c: Number(formData.probability_c),
       };
 
       await onSave(dealData);
@@ -114,31 +115,32 @@ const DealForm = ({ deal, onSave, onCancel }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <Input
+<Input
         label="Deal Title"
-        name="title"
-        value={formData.title}
+        name="title_c"
+        value={formData.title_c}
         onChange={handleChange}
-        error={errors.title}
+        error={errors.title_c}
         placeholder="Enter deal title"
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input
+<Input
           label="Deal Value ($)"
-          name="value"
+          name="value_c"
           type="number"
-          value={formData.value}
+          value={formData.value_c}
           onChange={handleChange}
-          error={errors.value}
+          error={errors.value_c}
           placeholder="Enter deal value"
         />
 
-        <Select
+<Select
           label="Stage"
-          name="stage"
-          value={formData.stage}
+          name="stage_c"
+          value={formData.stage_c}
           onChange={handleChange}
+        >
         >
           {stages.map(stage => (
             <option key={stage.value} value={stage.value}>
@@ -149,25 +151,25 @@ const DealForm = ({ deal, onSave, onCancel }) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Select
+<Select
           label="Contact"
-          name="contactId"
-          value={formData.contactId}
+          name="contact_id_c"
+          value={formData.contact_id_c}
           onChange={handleChange}
-          error={errors.contactId}
+          error={errors.contact_id_c}
         >
           <option value="">Select a contact</option>
-          {contacts.map(contact => (
+{contacts.map(contact => (
             <option key={contact.Id} value={contact.Id}>
-              {contact.firstName} {contact.lastName} - {contact.company}
+              {contact.first_name_c || contact.firstName} {contact.last_name_c || contact.lastName} - {contact.company_c || contact.company}
             </option>
           ))}
         </Select>
 
-        <Select
+<Select
           label="Probability (%)"
-          name="probability"
-          value={formData.probability}
+          name="probability_c"
+          value={formData.probability_c}
           onChange={handleChange}
         >
           <option value="10">10%</option>
@@ -179,12 +181,13 @@ const DealForm = ({ deal, onSave, onCancel }) => {
         </Select>
       </div>
 
-      <Input
+<Input
         label="Expected Close Date"
-        name="expectedCloseDate"
+        name="expected_close_date_c"
         type="date"
-        value={formData.expectedCloseDate}
+        value={formData.expected_close_date_c}
         onChange={handleChange}
+      />
       />
 
       <Textarea

@@ -62,7 +62,7 @@ const Activities = () => {
   const handleUpdateActivity = async (activityData) => {
     try {
       const updatedActivity = await activityService.update(selectedActivity.Id, activityData);
-      setActivities(prev => prev.map(activity => 
+setActivities(prev => prev.map(activity => 
         activity.Id === updatedActivity.Id ? updatedActivity : activity
       ));
     } catch (error) {
@@ -111,10 +111,10 @@ const Activities = () => {
   };
 
   const filteredActivities = activities.filter(activity => {
-    const matchesSearch = activity.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         activity.description?.toLowerCase().includes(searchTerm.toLowerCase());
+const matchesSearch = (activity.subject_c || activity.subject || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         (activity.description_c || activity.description || "").toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesFilter = filterType === "all" || activity.type === filterType;
+const matchesFilter = filterType === "all" || (activity.type_c || activity.type) === filterType;
     
     return matchesSearch && matchesFilter;
   });
@@ -190,7 +190,7 @@ const Activities = () => {
         <div className="space-y-4">
           {filteredActivities
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-            .map((activity) => {
+.map((activity) => {
               const contact = getContact(activity.contactId);
               const deal = getDeal(activity.dealId);
               
@@ -199,43 +199,43 @@ const Activities = () => {
                   <Card.Content className="p-6">
                     <div className="flex items-start justify-between">
                       <div className="flex items-start space-x-4 flex-1">
-                        <div className={`p-2 rounded-lg bg-${getActivityColor(activity.type)}/10`}>
+<div className={`p-2 rounded-lg bg-${getActivityColor(activity.type_c || activity.type)}/10`}>
                           <ApperIcon 
-                            name={getActivityIcon(activity.type)} 
-                            className={`w-5 h-5 text-${getActivityColor(activity.type) === 'primary' ? 'blue-600' : 
-                              getActivityColor(activity.type) === 'info' ? 'blue-500' :
-                              getActivityColor(activity.type) === 'success' ? 'green-600' :
+                            name={getActivityIcon(activity.type_c || activity.type)} 
+                            className={`w-5 h-5 text-${getActivityColor(activity.type_c || activity.type) === 'primary' ? 'blue-600' : 
+                              getActivityColor(activity.type_c || activity.type) === 'info' ? 'blue-500' :
+                              getActivityColor(activity.type_c || activity.type) === 'success' ? 'green-600' :
                               getActivityColor(activity.type) === 'warning' ? 'yellow-600' : 'gray-600'}`}
                           />
                         </div>
                         
                         <div className="flex-1">
                           <div className="flex items-center space-x-2 mb-2">
-                            <h3 className="font-semibold text-gray-900">{activity.subject}</h3>
-                            <Badge variant={getActivityColor(activity.type)}>
+<h3 className="font-semibold text-gray-900">{activity.subject_c || activity.subject}</h3>
+                            <Badge variant={getActivityColor(activity.type_c || activity.type)}>
                               {activity.type}
                             </Badge>
                           </div>
                           
-                          <p className="text-gray-600 text-sm mb-3">{activity.description}</p>
+<p className="text-gray-600 text-sm mb-3">{activity.description_c || activity.description}</p>
                           
                           <div className="flex items-center space-x-4 text-sm text-gray-500">
                             <div className="flex items-center space-x-1">
-                              <ApperIcon name="Clock" className="w-4 h-4" />
-                              <span>{format(new Date(activity.createdAt), "MMM dd, yyyy 'at' h:mm a")}</span>
+<ApperIcon name="Clock" className="w-4 h-4" />
+                              <span>{format(new Date(activity.created_at_c || activity.createdAt || activity.CreatedOn), "MMM dd, yyyy 'at' h:mm a")}</span>
                             </div>
                             
                             {contact && (
                               <div className="flex items-center space-x-1">
                                 <ApperIcon name="User" className="w-4 h-4" />
-                                <span>{contact.firstName} {contact.lastName}</span>
+<span>{contact.first_name_c || contact.firstName} {contact.last_name_c || contact.lastName}</span>
                               </div>
                             )}
                             
                             {deal && (
                               <div className="flex items-center space-x-1">
                                 <ApperIcon name="TrendingUp" className="w-4 h-4" />
-                                <span>{deal.title}</span>
+<span>{deal.title_c || deal.title}</span>
                               </div>
                             )}
                           </div>

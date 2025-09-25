@@ -4,27 +4,27 @@ import Input from "@/components/atoms/Input";
 import { toast } from "react-toastify";
 
 const ContactForm = ({ contact, onSave, onCancel }) => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    company: "",
-    position: "",
+const [formData, setFormData] = useState({
+    first_name_c: "",
+    last_name_c: "",
+    email_c: "",
+    phone_c: "",
+    company_c: "",
+    position_c: "",
   });
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (contact) {
+if (contact) {
       setFormData({
-        firstName: contact.firstName || "",
-        lastName: contact.lastName || "",
-        email: contact.email || "",
-        phone: contact.phone || "",
-        company: contact.company || "",
-        position: contact.position || "",
+        first_name_c: contact.first_name_c || contact.firstName || "",
+        last_name_c: contact.last_name_c || contact.lastName || "",
+        email_c: contact.email_c || contact.email || "",
+        phone_c: contact.phone_c || contact.phone || "",
+        company_c: contact.company_c || contact.company || "",
+        position_c: contact.position_c || contact.position || "",
       });
     }
   }, [contact]);
@@ -32,22 +32,22 @@ const ContactForm = ({ contact, onSave, onCancel }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "First name is required";
+if (!formData.first_name_c.trim()) {
+      newErrors.first_name_c = "First name is required";
     }
 
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = "Last name is required";
+if (!formData.last_name_c.trim()) {
+      newErrors.last_name_c = "Last name is required";
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid";
+if (!formData.email_c.trim()) {
+      newErrors.email_c = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email_c)) {
+      newErrors.email_c = "Email is invalid";
     }
 
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone is required";
+if (!formData.phone_c.trim()) {
+      newErrors.phone_c = "Phone is required";
     }
 
     setErrors(newErrors);
@@ -87,57 +87,57 @@ const ContactForm = ({ contact, onSave, onCancel }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input
+<Input
           label="First Name"
-          name="firstName"
-          value={formData.firstName}
+          name="first_name_c"
+          value={formData.first_name_c}
           onChange={handleChange}
-          error={errors.firstName}
+          error={errors.first_name_c}
           placeholder="Enter first name"
         />
 
-        <Input
+<Input
           label="Last Name"
-          name="lastName"
-          value={formData.lastName}
+          name="last_name_c"
+          value={formData.last_name_c}
           onChange={handleChange}
-          error={errors.lastName}
+          error={errors.last_name_c}
           placeholder="Enter last name"
         />
       </div>
 
-      <Input
+<Input
         label="Email"
-        name="email"
+        name="email_c"
         type="email"
-        value={formData.email}
+        value={formData.email_c}
         onChange={handleChange}
-        error={errors.email}
+        error={errors.email_c}
         placeholder="Enter email address"
       />
 
-      <Input
+<Input
         label="Phone"
-        name="phone"
-        value={formData.phone}
+        name="phone_c"
+        value={formData.phone_c}
         onChange={handleChange}
-        error={errors.phone}
+        error={errors.phone_c}
         placeholder="Enter phone number"
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input
+<Input
           label="Company"
-          name="company"
-          value={formData.company}
+          name="company_c"
+          value={formData.company_c}
           onChange={handleChange}
           placeholder="Enter company name"
         />
 
-        <Input
+<Input
           label="Position"
-          name="position"
-          value={formData.position}
+          name="position_c"
+          value={formData.position_c}
           onChange={handleChange}
           placeholder="Enter job title"
         />

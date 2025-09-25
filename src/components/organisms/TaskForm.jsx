@@ -8,14 +8,14 @@ import contactService from "@/services/api/contactService";
 import dealService from "@/services/api/dealService";
 
 const TaskForm = ({ task, onSave, onCancel }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    dueDate: "",
-    priority: "medium",
-    status: "pending",
-    contactId: "",
-    dealId: "",
+const [formData, setFormData] = useState({
+    title_c: "",
+    description_c: "",
+    due_date_c: "",
+    priority_c: "medium",
+    status_c: "pending",
+    contact_id_c: "",
+    deal_id_c: "",
   });
 
   const [contacts, setContacts] = useState([]);
@@ -41,15 +41,16 @@ const TaskForm = ({ task, onSave, onCancel }) => {
     loadContacts();
     loadDeals();
     
-    if (task) {
+if (task) {
       setFormData({
-        title: task.title || "",
-        description: task.description || "",
-        dueDate: task.dueDate ? task.dueDate.split("T")[0] : "",
-        priority: task.priority || "medium",
-        status: task.status || "pending",
-        contactId: task.contactId || "",
-        dealId: task.dealId || "",
+        title_c: task.title_c || task.title || "",
+        description_c: task.description_c || task.description || "",
+        due_date_c: task.due_date_c ? task.due_date_c.split("T")[0] : 
+                   task.dueDate ? task.dueDate.split("T")[0] : "",
+        priority_c: task.priority_c || task.priority || "medium",
+        status_c: task.status_c || task.status || "pending",
+        contact_id_c: task.contact_id_c || task.contactId || "",
+        deal_id_c: task.deal_id_c || task.dealId || "",
       });
     }
   }, [task]);
@@ -75,12 +76,12 @@ const TaskForm = ({ task, onSave, onCancel }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.title.trim()) {
-      newErrors.title = "Task title is required";
+if (!formData.title_c.trim()) {
+      newErrors.title_c = "Task title is required";
     }
 
-    if (!formData.dueDate) {
-      newErrors.dueDate = "Due date is required";
+if (!formData.due_date_c) {
+      newErrors.due_date_c = "Due date is required";
     }
 
     setErrors(newErrors);
@@ -119,38 +120,39 @@ const TaskForm = ({ task, onSave, onCancel }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <Input
+<Input
         label="Task Title"
-        name="title"
-        value={formData.title}
+        name="title_c"
+        value={formData.title_c}
         onChange={handleChange}
-        error={errors.title}
+        error={errors.title_c}
         placeholder="Enter task title"
       />
+      />
 
-      <Textarea
+<Textarea
         label="Description"
-        name="description"
-        value={formData.description}
+        name="description_c"
+        value={formData.description_c}
         onChange={handleChange}
         placeholder="Enter task description (optional)"
         rows={3}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Input
+<Input
           label="Due Date"
-          name="dueDate"
+          name="due_date_c"
           type="date"
-          value={formData.dueDate}
+          value={formData.due_date_c}
           onChange={handleChange}
-          error={errors.dueDate}
+          error={errors.due_date_c}
         />
 
-        <Select
+<Select
           label="Priority"
-          name="priority"
-          value={formData.priority}
+          name="priority_c"
+          value={formData.priority_c}
           onChange={handleChange}
         >
           {priorities.map(priority => (
@@ -160,10 +162,10 @@ const TaskForm = ({ task, onSave, onCancel }) => {
           ))}
         </Select>
 
-        <Select
+<Select
           label="Status"
-          name="status"
-          value={formData.status}
+          name="status_c"
+          value={formData.status_c}
           onChange={handleChange}
         >
           {statuses.map(status => (
@@ -175,30 +177,30 @@ const TaskForm = ({ task, onSave, onCancel }) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Select
+<Select
           label="Related Contact (Optional)"
-          name="contactId"
-          value={formData.contactId}
+          name="contact_id_c"
+          value={formData.contact_id_c}
           onChange={handleChange}
         >
           <option value="">Select a contact</option>
-          {contacts.map(contact => (
+{contacts.map(contact => (
             <option key={contact.Id} value={contact.Id}>
-              {contact.firstName} {contact.lastName} - {contact.company}
+              {contact.first_name_c || contact.firstName} {contact.last_name_c || contact.lastName} - {contact.company_c || contact.company}
             </option>
           ))}
         </Select>
 
-        <Select
+<Select
           label="Related Deal (Optional)"
-          name="dealId"
-          value={formData.dealId}
+          name="deal_id_c"
+          value={formData.deal_id_c}
           onChange={handleChange}
         >
           <option value="">Select a deal</option>
-          {deals.map(deal => (
+{deals.map(deal => (
             <option key={deal.Id} value={deal.Id}>
-              {deal.title}
+              {deal.title_c || deal.title}
             </option>
           ))}
         </Select>

@@ -8,12 +8,12 @@ import contactService from "@/services/api/contactService";
 import dealService from "@/services/api/dealService";
 
 const ActivityForm = ({ activity, onSave, onCancel }) => {
-  const [formData, setFormData] = useState({
-    type: "call",
-    subject: "",
-    description: "",
-    contactId: "",
-    dealId: "",
+const [formData, setFormData] = useState({
+    type_c: "call",
+    subject_c: "",
+    description_c: "",
+    contact_id_c: "",
+    deal_id_c: "",
   });
 
   const [contacts, setContacts] = useState([]);
@@ -32,13 +32,13 @@ const ActivityForm = ({ activity, onSave, onCancel }) => {
     loadContacts();
     loadDeals();
     
-    if (activity) {
+if (activity) {
       setFormData({
-        type: activity.type || "call",
-        subject: activity.subject || "",
-        description: activity.description || "",
-        contactId: activity.contactId || "",
-        dealId: activity.dealId || "",
+        type_c: activity.type_c || activity.type || "call",
+        subject_c: activity.subject_c || activity.subject || "",
+        description_c: activity.description_c || activity.description || "",
+        contact_id_c: activity.contact_id_c || activity.contactId || "",
+        deal_id_c: activity.deal_id_c || activity.dealId || "",
       });
     }
   }, [activity]);
@@ -64,12 +64,12 @@ const ActivityForm = ({ activity, onSave, onCancel }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.subject.trim()) {
-      newErrors.subject = "Subject is required";
+if (!formData.subject_c.trim()) {
+      newErrors.subject_c = "Subject is required";
     }
 
-    if (!formData.description.trim()) {
-      newErrors.description = "Description is required";
+if (!formData.description_c.trim()) {
+      newErrors.description_c = "Description is required";
     }
 
     setErrors(newErrors);
@@ -109,10 +109,10 @@ const ActivityForm = ({ activity, onSave, onCancel }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Select
+<Select
           label="Activity Type"
-          name="type"
-          value={formData.type}
+          name="type_c"
+          value={formData.type_c}
           onChange={handleChange}
         >
           {activityTypes.map(type => (
@@ -122,51 +122,51 @@ const ActivityForm = ({ activity, onSave, onCancel }) => {
           ))}
         </Select>
 
-        <Input
+<Input
           label="Subject"
-          name="subject"
-          value={formData.subject}
+          name="subject_c"
+          value={formData.subject_c}
           onChange={handleChange}
-          error={errors.subject}
+          error={errors.subject_c}
           placeholder="Enter activity subject"
         />
       </div>
 
-      <Textarea
+<Textarea
         label="Description"
-        name="description"
-        value={formData.description}
+        name="description_c"
+        value={formData.description_c}
         onChange={handleChange}
-        error={errors.description}
+        error={errors.description_c}
         placeholder="Enter activity details..."
         rows={4}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Select
+<Select
           label="Related Contact (Optional)"
-          name="contactId"
-          value={formData.contactId}
+          name="contact_id_c"
+          value={formData.contact_id_c}
           onChange={handleChange}
         >
           <option value="">Select a contact</option>
-          {contacts.map(contact => (
+{contacts.map(contact => (
             <option key={contact.Id} value={contact.Id}>
-              {contact.firstName} {contact.lastName} - {contact.company}
+              {contact.first_name_c || contact.firstName} {contact.last_name_c || contact.lastName} - {contact.company_c || contact.company}
             </option>
           ))}
         </Select>
 
-        <Select
+<Select
           label="Related Deal (Optional)"
-          name="dealId"
-          value={formData.dealId}
+          name="deal_id_c"
+          value={formData.deal_id_c}
           onChange={handleChange}
         >
           <option value="">Select a deal</option>
-          {deals.map(deal => (
+{deals.map(deal => (
             <option key={deal.Id} value={deal.Id}>
-              {deal.title}
+              {deal.title_c || deal.title}
             </option>
           ))}
         </Select>

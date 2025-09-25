@@ -61,7 +61,7 @@ const Tasks = () => {
 
   const handleUpdateTask = async (taskData) => {
     try {
-      const updatedTask = await taskService.update(selectedTask.Id, taskData);
+const updatedTask = await taskService.update(selectedTask.Id, taskData);
       setTasks(prev => prev.map(task => 
         task.Id === updatedTask.Id ? updatedTask : task
       ));
@@ -85,8 +85,8 @@ const Tasks = () => {
   const handleToggleTaskStatus = async (task) => {
     const newStatus = task.status === "completed" ? "pending" : "completed";
     
-    try {
-      const updatedTask = await taskService.update(task.Id, { ...task, status: newStatus });
+try {
+      const updatedTask = await taskService.update(task.Id, { ...task, status_c: newStatus });
       setTasks(prev => prev.map(t => t.Id === updatedTask.Id ? updatedTask : t));
       toast.success(`Task marked as ${newStatus}!`);
     } catch (error) {
@@ -95,7 +95,7 @@ const Tasks = () => {
   };
 
   const getContact = (contactId) => {
-    return contacts.find(contact => contact.Id === parseInt(contactId));
+return contacts.find(contact => contact.Id === parseInt(contactId));
   };
 
   const getDeal = (dealId) => {
@@ -122,11 +122,11 @@ const Tasks = () => {
     return colors[status] || "default";
   };
 
-  const filteredTasks = tasks.filter(task => {
-    const matchesSearch = task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         task.description?.toLowerCase().includes(searchTerm.toLowerCase());
+const filteredTasks = tasks.filter(task => {
+    const matchesSearch = (task.title_c || task.title || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         (task.description_c || task.description || "").toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesFilter = filterStatus === "all" || task.status === filterStatus;
+const matchesFilter = filterStatus === "all" || (task.status_c || task.status) === filterStatus;
     
     return matchesSearch && matchesFilter;
   });
@@ -212,50 +212,50 @@ const Tasks = () => {
                       <button
                         onClick={() => handleToggleTaskStatus(task)}
                         className={`mt-1 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
-                          task.status === "completed"
-                            ? "bg-success border-success"
+(task.status_c || task.status) === "completed"
+                          ? "bg-success border-success"
                             : "border-gray-300 hover:border-success"
                         }`}
                       >
-                        {task.status === "completed" && (
+{(task.status_c || task.status) === "completed" && (
                           <ApperIcon name="Check" className="w-3 h-3 text-white" />
                         )}
                       </button>
                       
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-2">
-                          <h3 className={`font-semibold ${task.status === "completed" ? "line-through text-gray-500" : "text-gray-900"}`}>
-                            {task.title}
+<h3 className={`font-semibold ${(task.status_c || task.status) === "completed" ? "line-through text-gray-500" : "text-gray-900"}`}>
+                            {task.title_c || task.title}
                           </h3>
-                          <Badge variant={getPriorityColor(task.priority)}>
+<Badge variant={getPriorityColor(task.priority_c || task.priority)}>
                             {task.priority}
                           </Badge>
-                          <Badge variant={getStatusColor(task.status)}>
+<Badge variant={getStatusColor(task.status_c || task.status)}>
                             {task.status}
                           </Badge>
                         </div>
                         
-                        {task.description && (
+{(task.description_c || task.description) && (
                           <p className="text-gray-600 text-sm mb-3">{task.description}</p>
                         )}
                         
                         <div className="flex items-center space-x-4 text-sm text-gray-500">
                           <div className="flex items-center space-x-1">
                             <ApperIcon name="Calendar" className="w-4 h-4" />
-                            <span>{format(new Date(task.dueDate), "MMM dd, yyyy")}</span>
+<span>{format(new Date(task.due_date_c || task.dueDate), "MMM dd, yyyy")}</span>
                           </div>
                           
                           {contact && (
                             <div className="flex items-center space-x-1">
                               <ApperIcon name="User" className="w-4 h-4" />
-                              <span>{contact.firstName} {contact.lastName}</span>
+<span>{contact.first_name_c || contact.firstName} {contact.last_name_c || contact.lastName}</span>
                             </div>
                           )}
                           
                           {deal && (
                             <div className="flex items-center space-x-1">
                               <ApperIcon name="TrendingUp" className="w-4 h-4" />
-                              <span>{deal.title}</span>
+<span>{deal.title_c || deal.title}</span>
                             </div>
                           )}
                         </div>

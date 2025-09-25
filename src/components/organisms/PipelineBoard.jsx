@@ -21,7 +21,7 @@ const PipelineBoard = ({ deals, contacts, onEditDeal, onDeleteDeal }) => {
     return deals.filter(deal => deal.stage === stageId);
   };
 
-  const getContact = (contactId) => {
+const getContact = (contactId) => {
     return contacts.find(contact => contact.Id === parseInt(contactId));
   };
 
@@ -43,14 +43,14 @@ const PipelineBoard = ({ deals, contacts, onEditDeal, onDeleteDeal }) => {
   const handleDrop = (e, stageId) => {
     e.preventDefault();
     if (draggedDeal && draggedDeal.stage !== stageId) {
-      const updatedDeal = { ...draggedDeal, stage: stageId };
+const updatedDeal = { ...draggedDeal, stage_c: stageId };
       onEditDeal(updatedDeal);
     }
     setDraggedDeal(null);
   };
 
-  const DealCard = ({ deal }) => {
-    const contact = getContact(deal.contactId);
+const DealCard = ({ deal }) => {
+    const contact = getContact(deal.contact_id_c || deal.contactId);
     
     return (
       <Card 
@@ -81,26 +81,26 @@ const PipelineBoard = ({ deals, contacts, onEditDeal, onDeleteDeal }) => {
             </div>
           </div>
           
-          <div className="text-lg font-bold text-primary mb-2">
-            ${deal.value?.toLocaleString()}
+<div className="text-lg font-bold text-primary mb-2">
+            ${(deal.value_c || deal.value || 0).toLocaleString()}
           </div>
           
           <div className="space-y-2">
-            {contact && (
+{contact && (
               <div className="flex items-center text-xs text-gray-600">
                 <ApperIcon name="User" className="h-3 w-3 mr-1" />
-                {contact.firstName} {contact.lastName}
+                {contact.first_name_c || contact.firstName} {contact.last_name_c || contact.lastName}
               </div>
             )}
             
             <div className="flex items-center justify-between">
-              <Badge variant={getPriorityColor(deal.probability)}>
-                {deal.probability}%
+<Badge variant={getPriorityColor(deal.probability_c || deal.probability)}>
+                {deal.probability_c || deal.probability}%
               </Badge>
               
-              {deal.expectedCloseDate && (
+{(deal.expected_close_date_c || deal.expectedCloseDate) && (
                 <span className="text-xs text-gray-500">
-                  {format(new Date(deal.expectedCloseDate), "MMM dd")}
+                  {format(new Date(deal.expected_close_date_c || deal.expectedCloseDate), "MMM dd")}
                 </span>
               )}
             </div>
