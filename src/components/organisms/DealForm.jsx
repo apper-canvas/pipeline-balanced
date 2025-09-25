@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import contactService from "@/services/api/contactService";
 import Button from "@/components/atoms/Button";
 import Input from "@/components/atoms/Input";
 import Select from "@/components/atoms/Select";
 import Textarea from "@/components/atoms/Textarea";
-import { toast } from "react-toastify";
-import contactService from "@/services/api/contactService";
 
 const DealForm = ({ deal, onSave, onCancel }) => {
 const [formData, setFormData] = useState({
@@ -15,9 +15,8 @@ const [formData, setFormData] = useState({
     probability_c: "10",
     expected_close_date_c: "",
     description_c: "",
-    notes_c: "",
+    created_at_c: new Date().toISOString().slice(0, 16),
   });
-
   const [contacts, setContacts] = useState([]);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,24 +30,22 @@ const [formData, setFormData] = useState({
     { value: "closed-lost", label: "Closed Lost" },
   ];
 
-  useEffect(() => {
+useEffect(() => {
     loadContacts();
     
-if (deal) {
+    if (deal) {
       setFormData({
         title_c: deal.title_c || deal.title || "",
         value_c: deal.value_c?.toString() || deal.value?.toString() || "",
         stage_c: deal.stage_c || deal.stage || "lead",
-contact_id_c: deal.contact_id_c || deal.contactId || null,
+        contact_id_c: deal.contact_id_c || deal.contactId || "",
         probability_c: deal.probability_c?.toString() || deal.probability?.toString() || "10",
-        expected_close_date_c: deal.expected_close_date_c ? deal.expected_close_date_c.split("T")[0] : 
-                               deal.expectedCloseDate ? deal.expectedCloseDate.split("T")[0] : "",
-description_c: deal.description_c || deal.description || "",
-        notes_c: deal.notes_c || deal.notes || "",
+        expected_close_date_c: deal.expected_close_date_c ? deal.expected_close_date_c.slice(0, 16) : "",
+        description_c: deal.description_c || deal.description || "",
+        created_at_c: deal.created_at_c || new Date().toISOString().slice(0, 16),
       });
     }
   }, [deal]);
-
   const loadContacts = async () => {
     try {
       const contactsData = await contactService.getAll();
@@ -198,18 +195,9 @@ onChange={handleChange}
         onChange={handleChange}
         placeholder="Enter deal description (optional)"
         rows={3}
-      />
+/>
 
-      <Textarea
-        label="Notes"
-        name="notes_c"
-        value={formData.notes_c}
-        onChange={handleChange}
-        placeholder="Enter additional notes about this deal (optional)"
-        rows={3}
-      />
-
-      <div className="flex justify-end space-x-3 pt-6">
+      <div className="flex justify-end gap-3 pt-4">
         <Button
           type="button"
           variant="secondary"
