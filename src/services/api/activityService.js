@@ -85,8 +85,8 @@ class ActivityService {
           type_c: activityData.type_c || activityData.type || "call",
           subject_c: activityData.subject_c || activityData.subject,
           description_c: activityData.description_c || activityData.description || "",
-          contact_id_c: activityData.contact_id_c || activityData.contactId || null,
-          deal_id_c: activityData.deal_id_c || activityData.dealId || null,
+contact_id_c: parseInt(activityData.contact_id_c || activityData.contactId) || null,
+          deal_id_c: parseInt(activityData.deal_id_c || activityData.dealId) || null,
           created_at_c: new Date().toISOString()
         }]
       };
@@ -124,8 +124,8 @@ class ActivityService {
           type_c: activityData.type_c || activityData.type,
           subject_c: activityData.subject_c || activityData.subject,
           description_c: activityData.description_c || activityData.description || "",
-          contact_id_c: activityData.contact_id_c || activityData.contactId || null,
-          deal_id_c: activityData.deal_id_c || activityData.dealId || null
+contact_id_c: parseInt(activityData.contact_id_c || activityData.contactId) || null,
+          deal_id_c: parseInt(activityData.deal_id_c || activityData.dealId) || null
         }]
       };
 

@@ -61,8 +61,8 @@ const Activities = () => {
 
   const handleUpdateActivity = async (activityData) => {
     try {
-      const updatedActivity = await activityService.update(selectedActivity.Id, activityData);
-setActivities(prev => prev.map(activity => 
+const updatedActivity = await activityService.update(selectedActivity.Id, activityData);
+      setActivities(prev => prev.map(activity => 
         activity.Id === updatedActivity.Id ? updatedActivity : activity
       ));
     } catch (error) {
