@@ -185,14 +185,13 @@ const dealData = {
         name="expected_close_date_c"
         type="date"
         value={formData.expected_close_date_c}
-        onChange={handleChange}
-      />
+onChange={handleChange}
       />
 
       <Textarea
         label="Description"
-        name="description"
-        value={formData.description}
+        name="description_c"
+        value={formData.description_c}
         onChange={handleChange}
         placeholder="Enter deal description (optional)"
         rows={3}
