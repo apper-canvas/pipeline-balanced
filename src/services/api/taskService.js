@@ -76,20 +76,31 @@ class TaskService {
     }
   }
 
-  async create(taskData) {
+async create(taskData) {
     try {
       const client = this.getApperClient();
+      
+      // Prepare record data with proper integer conversion for lookup fields
+      const recordData = {
+        Name: taskData.title_c || taskData.title,
+        title_c: taskData.title_c || taskData.title,
+        description_c: taskData.description_c || taskData.description || "",
+        due_date_c: taskData.due_date_c || taskData.dueDate,
+        priority_c: taskData.priority_c || taskData.priority || "medium",
+        status_c: taskData.status_c || taskData.status || "pending"
+      };
+      
+      // Add lookup fields only if they have valid values, converted to integers
+      if (taskData.contact_id_c || taskData.contactId) {
+        recordData.contact_id_c = parseInt(taskData.contact_id_c || taskData.contactId);
+      }
+      
+      if (taskData.deal_id_c || taskData.dealId) {
+        recordData.deal_id_c = parseInt(taskData.deal_id_c || taskData.dealId);
+      }
+      
       const params = {
-        records: [{
-          Name: taskData.title_c || taskData.title,
-          title_c: taskData.title_c || taskData.title,
-          description_c: taskData.description_c || taskData.description || "",
-          due_date_c: taskData.due_date_c || taskData.dueDate,
-          priority_c: taskData.priority_c || taskData.priority || "medium",
-          status_c: taskData.status_c || taskData.status || "pending",
-          contact_id_c: taskData.contact_id_c || taskData.contactId || null,
-          deal_id_c: taskData.deal_id_c || taskData.dealId || null
-        }]
+        records: [recordData]
       };
 
       const response = await client.createRecord(this.tableName, params);
@@ -115,25 +126,35 @@ class TaskService {
     }
   }
 
-  async update(id, taskData) {
+async update(id, taskData) {
     try {
       const client = this.getApperClient();
-      const params = {
-        records: [{
-          Id: parseInt(id),
-          Name: taskData.title_c || taskData.title,
-          title_c: taskData.title_c || taskData.title,
-          description_c: taskData.description_c || taskData.description || "",
-          due_date_c: taskData.due_date_c || taskData.dueDate,
-          priority_c: taskData.priority_c || taskData.priority,
-          status_c: taskData.status_c || taskData.status,
-          contact_id_c: taskData.contact_id_c || taskData.contactId || null,
-          deal_id_c: taskData.deal_id_c || taskData.dealId || null
-        }]
+      
+      // Prepare record data with proper integer conversion for lookup fields
+      const recordData = {
+        Id: parseInt(id),
+        Name: taskData.title_c || taskData.title,
+        title_c: taskData.title_c || taskData.title,
+        description_c: taskData.description_c || taskData.description || "",
+        due_date_c: taskData.due_date_c || taskData.dueDate,
+        priority_c: taskData.priority_c || taskData.priority,
+        status_c: taskData.status_c || taskData.status
+      };
+      
+      // Add lookup fields only if they have valid values, converted to integers
+      if (taskData.contact_id_c || taskData.contactId) {
+        recordData.contact_id_c = parseInt(taskData.contact_id_c || taskData.contactId);
+      }
+      
+      if (taskData.deal_id_c || taskData.dealId) {
+        recordData.deal_id_c = parseInt(taskData.deal_id_c || taskData.dealId);
+      }
+      
+const params = {
+        records: [recordData]
       };
 
       const response = await client.updateRecord(this.tableName, params);
-      
       if (!response.success) {
         console.error("Failed to update task:", response.message);
         throw new Error(response.message);

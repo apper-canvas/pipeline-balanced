@@ -201,8 +201,8 @@ const matchesFilter = filterStatus === "all" || (task.status_c || task.status) =
       ) : (
         <div className="grid gap-4">
           {filteredTasks.map((task) => {
-            const contact = getContact(task.contactId);
-            const deal = getDeal(task.dealId);
+const contact = getContact(task.contact_id_c);
+            const deal = getDeal(task.deal_id_c);
             
             return (
               <Card key={task.Id} className="card-hover">
@@ -228,15 +228,15 @@ const matchesFilter = filterStatus === "all" || (task.status_c || task.status) =
                             {task.title_c || task.title}
                           </h3>
 <Badge variant={getPriorityColor(task.priority_c || task.priority)}>
-                            {task.priority}
+                            {task.priority_c || task.priority}
                           </Badge>
-<Badge variant={getStatusColor(task.status_c || task.status)}>
-                            {task.status}
+                          <Badge variant={getStatusColor(task.status_c || task.status)}>
+                            {task.status_c || task.status}
                           </Badge>
                         </div>
                         
 {(task.description_c || task.description) && (
-                          <p className="text-gray-600 text-sm mb-3">{task.description}</p>
+                          <p className="text-gray-600 text-sm mb-3">{task.description_c || task.description}</p>
                         )}
                         
                         <div className="flex items-center space-x-4 text-sm text-gray-500">
