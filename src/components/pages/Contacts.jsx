@@ -39,10 +39,18 @@ const Contacts = () => {
     }
   };
 
-  const handleCreateContact = async (contactData) => {
+const handleCreateContact = async (contactData) => {
     try {
       const newContact = await contactService.create(contactData);
       setContacts(prev => [newContact, ...prev]);
+      
+      // Show success message for contact creation
+      toast.success("Contact created successfully!");
+      
+      // Additional feedback for email notification
+      if (contactData.email_c) {
+        toast.info("Welcome email sent to the new contact!");
+      }
     } catch (error) {
       throw new Error("Failed to create contact");
     }

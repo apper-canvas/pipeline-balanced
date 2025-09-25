@@ -80,7 +80,7 @@ class ContactService {
     }
   }
 
-  async create(contactData) {
+async create(contactData) {
     try {
       const client = this.getApperClient();
       const params = {
@@ -112,7 +112,33 @@ class ContactService {
           console.error(`Failed to create ${failed.length} contacts:`, JSON.stringify(failed));
         }
         
-        return successful.length > 0 ? successful[0].data : null;
+        const newContact = successful.length > 0 ? successful[0].data : null;
+        
+        // Send welcome email if contact created successfully
+        if (newContact && (contactData.email_c || contactData.email)) {
+          try {
+            const emailResult = await client.functions.invoke(import.meta.env.VITE_SEND_CONTACT_WELCOME_EMAIL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                contact: newContact
+              })
+            });
+            
+            // Log email result but don't throw error if email fails
+            if (emailResult.success) {
+              console.log('Welcome email sent successfully to', newContact.email_c);
+            } else {
+              console.error('Failed to send welcome email:', emailResult.message);
+            }
+          } catch (emailError) {
+            console.error('Email function error:', emailError);
+          }
+        }
+        
+        return newContact;
       }
     } catch (error) {
       console.error("Error creating contact:", error?.message || error);
